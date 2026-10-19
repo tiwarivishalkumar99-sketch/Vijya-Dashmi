@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Vijayadashami 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #4a0000, #1a0000);
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            z-index: 10;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px #ff3300;
+            margin-bottom: 20px;
+        }
+        /* Ravan Character Box */
+        .ravan-box {
+            font-size: 5rem;
+            margin: 20px 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .ravan-blast {
+            animation: explode 0.5s forwards;
+        }
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); color: #ff3300; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        /* Typewriter Text */
+        #wishes-text {
+            font-size: 1.3rem;
+            color: #ffa500;
+            font-weight: bold;
+            min-height: 70px;
+            margin: 15px 0;
+            text-shadow: 0 0 5px rgba(255,165,0,0.5);
+        }
+        .action-btn {
+            background: linear-gradient(90deg, #ff3300, #ffcc00);
+            color: black;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 51, 0, 0.4);
+            transition: 0.3s ease;
+        }
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 204, 0, 0.6);
+        }
+        /* Sparkles Background */
+        .sparkle {
+            position: absolute;
+            background: #ffcc00;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: fly 3s linear infinite;
+            opacity: 0.8;
+        }
+        @keyframes fly {
+            0% { transform: translateY(105vh) translateX(0); }
+            100% { transform: translateY(-5vh) translateX(50px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vijayadashami Ki Hardik Shubhkamnaye! 🙏</h1>
+        
+        <!-- Ravan Graphic Representation -->
+        <div class="ravan-box" id="ravan">👹🔥</div>
+        
+        <!-- Target message type display -->
+        <div id="wishes-text">Click the button to burn Ravan! 👇</div>
+
+        <!-- Action Fire Button -->
+        <button class="action-btn" id="shootBtn">🏹 Shoot Arrow & Start Music</button>
+    </div>
+
+    <!-- Background Music Audio Tag -->
+    <audio id="festiveMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const textArray = [
+            "Burai par Achhai ki jeet ka din aaya hai... ✨",
+            "Mere sabhi yaaron ko Happy Dussehra! 🏹",
+            "Is saal tumhare andar ka saala Ravan bhi khalaas ho jaye! 😉",
+            "Kamyabi tumhare kadam choome aur dosti hamesha bani rahe! 🤜🤛",
+            "Chalo sath milkar khushiyan manate hain! 🎉🔥"
+        ];
+        
+        let arrayIndex = 0;
+        let charIndex = 0;
+        const wishesElement = document.getElementById("wishes-text");
+        const ravanElement = document.getElementById("ravan");
+        const shootBtn = document.getElementById("shootBtn");
+        const music = document.getElementById("festiveMusic");
+
+        function type() {
+            if (charIndex < textArray[arrayIndex].length) {
+                wishesElement.innerHTML += textArray[arrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 50);
+            } else {
+                setTimeout(erase, 2500);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                wishesElement.innerHTML = textArray[arrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 25);
+            } else {
+                arrayIndex = (arrayIndex + 1) % textArray.length;
+                setTimeout(type, 400);
+            }
+        }
+
+        // Trigger Event on click
+        shootBtn.addEventListener("click", () => {
+            // Blast Ravan animation
+            ravanElement.classList.add("ravan-blast");
+            
+            setTimeout(() => {
+                ravanElement.innerHTML = "💥💥";
+                ravanElement.style.opacity = "1";
+                ravanElement.style.transform = "scale(1.2)";
+            }, 450);
+
+            // Play Music
+            music.play().catch(err => console.log("Audio Error:", err));
+            
+            // Hide button after shoot and start wishes
+            shootBtn.style.display = "none";
+            wishesElement.innerHTML = "";
+            type();
+        });
+
+        // Background Sparkles Effect
+        function createSparkle() {
+            const sparkle = document.createElement("div");
+            sparkle.classList.add("sparkle");
+            sparkle.style.left = Math.random() * 100 + "vw";
+            sparkle.style.animationDuration = Math.random() * 2 + 2 + "s";
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 4000);
+        }
+        setInterval(createSparkle, 200);
+    </script>
+</body>
+</html>
